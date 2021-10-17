@@ -31,11 +31,11 @@ jobs:
       - name: Deploy to Firebase hosting
         run: yarn install --frozen-lockfile && yarn build
         uses: FirebaseExtended/action-hosting-deploy@v0
-          with:
-            repoToken: '${{ secrets.GITHUB_TOKEN }}'
-            firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_29F60 }}'
-            channelId: live
-            projectId: portfolio-29f60
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_29F60 }}'
+          channelId: live
+          projectId: portfolio-29f60
 
       - name: Update deployment status
         uses: bobheadxi/deployments@v0.4.3
