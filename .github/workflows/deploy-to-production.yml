@@ -1,0 +1,48 @@
+name: Deploy to Production
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+    
+jobs:
+  deploy-to-production:
+    name: Deploy Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js 14
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Start deployment
+        uses: bobheadxi/deployments@v0.4.3
+        id: deployment
+        with:
+          step: start
+          token: ${{ secrets.GITHUB_TOKEN }}
+          env: production
+
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      
+      - name: Deploy to Firebase hosting
+        run: yarn install --frozen-lockfile && yarn build
+        uses: FirebaseExtended/action-hosting-deploy@v0
+          with:
+            repoToken: '${{ secrets.GITHUB_TOKEN }}'
+            firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_PORTFOLIO_29F60 }}'
+            channelId: live
+            projectId: portfolio-29f60
+
+      - name: Update deployment status
+        uses: bobheadxi/deployments@v0.4.3
+        if: always()
+        with:
+          step: finish
+          token: ${{ secrets.GITHUB_TOKEN }}
+          status: ${{ job.status }}
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          env_url: https://davidshefcik.com/
