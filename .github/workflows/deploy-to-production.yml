@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-    
+
 jobs:
   deploy-to-production:
     name: Deploy Release
@@ -30,7 +30,7 @@ jobs:
 
       - name: Build application
         run: yarn build
-      
+
       - name: Deploy to Firebase hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
