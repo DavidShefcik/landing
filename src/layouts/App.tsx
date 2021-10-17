@@ -1,7 +1,15 @@
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+
+import Home from '~/pages/Home';
+import NotFound from '~/pages/NotFound';
+
 export default function App() {
   return (
-    <div>
-      <p>App</p>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact component={Home} />
+        <Route path="*" component={NotFound} />
+      </Switch>
+    </BrowserRouter>
   );
 }
